@@ -32,6 +32,20 @@ public class ControlPanel extends JPanel implements ActionListener,ChangeListene
 	floor_pair_.button().addActionListener( this );
     }
 
+    public void setValues( double lambda, double floor ){
+	final int lambda_int = weightToSliderValue( lambda );
+	final int floor_int = weightToSliderValue( floor );
+
+	lambda_slider_.setValue( lambda_int );
+	floor_slider_.setValue( floor_int );
+
+	lambda_pair_.field().setText( String.format( "%.2f", lambda ) );
+	floor_pair_.field().setText( String.format( "%.2f", floor ) );
+
+	view_.setLambda( lambda );
+	view_.setFloor( floor );
+    }
+
     public static double sliderValueToWeight( int val ){
 	return 0.01 * val;
     }

@@ -3,93 +3,57 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class ControlPanel extends JPanel implements ActionListener,ChangeListener {
+public class ControlPanelTop extends JPanel implements ActionListener {
 
     private final View view_;
+    private final ControlPanel control_panel_;
 
-    private final static JSlider lambda_slider_ = new JSlider( 0, 100 );
-    private final static TextButtPair lambda_pair_ = new TextButtPair();
+    private final JButton set1_ = new JButton( "1" );
+    private final JButton set2_ = new JButton( "2" );
+    private final JButton set3_ = new JButton( "3" );
 
-    private final static JSlider floor_slider_ = new JSlider( 0, 100 );
-    private final static TextButtPair floor_pair_ = new TextButtPair();
+    private final JLabel buffer_ = new JLabel( " " );
+    private final JButton decrease_font_size_ = new JButton( "-" );
+    private final JButton increase_font_size_ = new JButton( "+" );
 
-    public ControlPanel( View view ){
+    public ControlPanelTop( View view, ControlPanel cp ){
 	view_ = view;
+	control_panel_ = cp;
 
-	lambda_slider_.setValue( 0 );
-	floor_slider_.setValue( 0 );
+	setLayout( new GridLayout( 1, 6 ) );
+	add( set1_ );
+	add( set2_ );
+	add( set3_ );
 
-	setLayout( new GridLayout( 1, 4 ) );
-	add( lambda_slider_ );
-	add( lambda_pair_ );
-	add( floor_slider_ );
-	add( floor_pair_ );
+	add( buffer_ );
+	add( decrease_font_size_ );
+	add( increase_font_size_ );
 
-	lambda_slider_.addChangeListener( this );
-	lambda_pair_.button().addActionListener( this );
-	
-	floor_slider_.addChangeListener( this );
-	floor_pair_.button().addActionListener( this );
-    }
-
-    public static double sliderValueToWeight( int val ){
-	return 0.01 * val;
-    }
-
-    public static int weightToSliderValue( double val ){
-	return (int) (val*100);
+	set1_.addActionListener( this );
+	set2_.addActionListener( this );
+	set3_.addActionListener( this );
+	decrease_font_size_.addActionListener( this );
+	increase_font_size_.addActionListener( this );
     }
 
     @Override
     public void actionPerformed( ActionEvent e ) {
 	
-	if( e.getSource() == lambda_pair_.button() ){
-	    final double value = Double.parseDouble( lambda_pair_.field().getText() );
-	    lambda_slider_.setValue( weightToSliderValue( value ) );
-	    view_.setLambda( value );
+	if( e.getSource() == set1_ ){
+	    control_panel_.setValues( 0.15, 0 );
 	}
-
-	else if( e.getSource() == floor_pair_.button() ){
-	    final double value = Double.parseDouble( floor_pair_.field().getText() );
-	    floor_slider_.setValue( weightToSliderValue( value ) );
-	    view_.setFloor( value );
+	else if( e.getSource() == set2_ ){
+	    control_panel_.setValues( 0, 0.06 );
 	}
-    }
-
-    @Override
-    public void stateChanged( ChangeEvent e ){
-	if( e.getSource() == lambda_slider_ ){
-	    final double value = sliderValueToWeight( lambda_slider_.getValue() );
-	    lambda_pair_.field().setText( String.format( "%.2f", value ) );
-	    view_.setLambda( value );
+	else if( e.getSource() == set3_ ){
+	    control_panel_.setValues( 0.1, 0.04 );
 	}
-
-	else if( e.getSource() == floor_slider_ ){
-	    final double value = sliderValueToWeight( floor_slider_.getValue() );
-	    floor_pair_.field().setText( String.format( "%.2f", value ) );
-	    view_.setFloor( value );
+	else if( e.getSource() == decrease_font_size_ ){
+	    view_.decreaseFontSize();
 	}
-    }
-
-    private static class TextButtPair extends JPanel {
-
-	private final JTextField field_ = new JTextField( "0.0" );
-	private final JButton button_ = new JButton( "Set" );
-
-	public TextButtPair(){
-	    setLayout( new GridLayout( 1, 2 ) );
-	    add( field_ );
-	    add( button_ );
+	else if( e.getSource() == increase_font_size_ ){
+	    view_.increaseFontSize();
 	}
-
-	public JTextField field(){
-	    return field_;
-	}
-
-	public JButton button(){
-	    return button_;
-	}
-
     }
 
 }

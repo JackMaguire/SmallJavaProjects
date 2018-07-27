@@ -16,11 +16,13 @@ public class Main {
 
 	private final static View view_ = new View();
 	private final static ControlPanel control_panel_ = new ControlPanel( view_ );
+	private final static ControlPanelTop control_panel_top_ = new ControlPanelTop( view_, control_panel_ );
 
 	public MainView(){
 	    setLayout( new BorderLayout() );
 	    add( view_, BorderLayout.CENTER );
 	    add( control_panel_, BorderLayout.SOUTH );
+	    add( control_panel_top_, BorderLayout.NORTH );
 	}
 
     }
