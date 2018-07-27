@@ -87,21 +87,21 @@ public class View extends JPanel {
 	}
     }
 
-    public void setLambda( double setting ){
+    public final void setLambda( double setting ){
 	lambda_ = setting;
 	repaint();
     }
 
-    public void setFloor( double setting ){
+    public final void setFloor( double setting ){
 	floor_ = setting;
 	repaint();
     }
 
-    private double correctedPackingValue( double value ){
+    private final double correctedPackingValue( double value ){
 	return floor_ + ( 1 - floor_ ) * value;
     }
 
-    private double correctedMinimizationValue( double value, double next_value ){
+    private final double correctedMinimizationValue( double value, double next_value ){
 	return floor_ + ( 1 - floor_ ) * ( lambda_ * next_value + (1 - lambda_) * value );
     }
 
