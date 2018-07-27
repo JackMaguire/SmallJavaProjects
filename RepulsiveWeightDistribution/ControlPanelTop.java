@@ -8,6 +8,7 @@ public class ControlPanelTop extends JPanel implements ActionListener {
     private final View view_;
     private final ControlPanel control_panel_;
 
+    private final JButton set0_ = new JButton( "0" );
     private final JButton set1_ = new JButton( "1" );
     private final JButton set2_ = new JButton( "2" );
     private final JButton set3_ = new JButton( "3" );
@@ -20,7 +21,8 @@ public class ControlPanelTop extends JPanel implements ActionListener {
 	view_ = view;
 	control_panel_ = cp;
 
-	setLayout( new GridLayout( 1, 6 ) );
+	setLayout( new GridLayout( 1, 7 ) );
+	add( set0_ );
 	add( set1_ );
 	add( set2_ );
 	add( set3_ );
@@ -29,6 +31,7 @@ public class ControlPanelTop extends JPanel implements ActionListener {
 	add( decrease_font_size_ );
 	add( increase_font_size_ );
 
+	set0_.addActionListener( this );
 	set1_.addActionListener( this );
 	set2_.addActionListener( this );
 	set3_.addActionListener( this );
@@ -39,7 +42,10 @@ public class ControlPanelTop extends JPanel implements ActionListener {
     @Override
     public void actionPerformed( ActionEvent e ) {
 	
-	if( e.getSource() == set1_ ){
+	if( e.getSource() == set0_ ){
+	    control_panel_.setValues( 0, 0 );
+	}
+	else if( e.getSource() == set1_ ){
 	    control_panel_.setValues( 0.15, 0 );
 	}
 	else if( e.getSource() == set2_ ){
