@@ -17,6 +17,8 @@ public class View extends JPanel {
 
     public void paint( Graphics g ){
 
+	final double[] values = new double[ 8 ];
+
 	final int horiz_unit = getWidth() / 10;
 	final int y_buffer = getHeight() / 4;
 
@@ -28,6 +30,8 @@ public class View extends JPanel {
 	    final int x = horiz_unit * ( 2 * i + 1 );
 	    final int y = (int) ( y_buffer + (2*y_buffer) * (1-value) );
 	    final int height = (int ) ( (2*y_buffer) * value );
+
+	    values[ 2*i ] = value;
 
 	    g.fillRect( x, y, horiz_unit, height );
 	}
@@ -41,16 +45,23 @@ public class View extends JPanel {
 	    final int y = (int) ( y_buffer + (2*y_buffer) * (1-value) );
 	    final int height = (int ) ( (2*y_buffer) * value );
 
+	    values[ 2*i + 1 ] = value;
+
 	    g.fillRect( x, y, horiz_unit, height );
 	}
 
 
 	//floor
+	g.setColor( Color.BLACK );	
 	if( floor_ > 0 ) {
-	    g.setColor( Color.BLACK );	
 	    final int y = 1 + (int) ( y_buffer + (2*y_buffer) * (1-floor_) );
 	    final int height = 1 + (int ) ( (2*y_buffer) * floor_ );
 	    g.fillRect( horiz_unit, y, 8*horiz_unit, height );
+	}
+
+	for( int i=0; i<8; ++i ){
+	    final int x = horiz_unit * (i+1);
+	    g.drawString( String.format( "%.3f", values[ i ] ), x, 3*y_buffer + 25 );
 	}
     }
 

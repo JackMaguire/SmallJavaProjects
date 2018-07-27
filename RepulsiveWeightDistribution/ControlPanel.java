@@ -60,13 +60,13 @@ public class ControlPanel extends JPanel implements ActionListener,ChangeListene
     public void stateChanged( ChangeEvent e ){
 	if( e.getSource() == lambda_slider_ ){
 	    final double value = sliderValueToWeight( lambda_slider_.getValue() );
-	    lambda_pair_.field().setText( String.format("%.2f", value ) );
+	    lambda_pair_.field().setText( String.format( "%.2f", value ) );
 	    view_.setLambda( value );
 	}
 
 	else if( e.getSource() == floor_slider_ ){
 	    final double value = sliderValueToWeight( floor_slider_.getValue() );
-	    floor_pair_.field().setText( String.format("%.2f", value ) );
+	    floor_pair_.field().setText( String.format( "%.2f", value ) );
 	    view_.setFloor( value );
 	}
     }
