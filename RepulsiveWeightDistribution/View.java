@@ -13,11 +13,27 @@ public class View extends JPanel {
 
     private final static double[] weights = { 0.02, 0.25, 0.55, 1.0 };
 
-    public View(){
+    public View(){}
 
+    public final void increaseFontSize(){
+	increaseFontSize( 5 );
     }
 
-    public void paint( Graphics g ){
+    public final void increaseFontSize( int diff ){
+	font_size_ += diff;
+	repaint();
+    }
+
+    public final void decreaseFontSize(){
+	decreaseFontSize( 5 );
+    }
+
+    public final void decreaseFontSize( int diff ){
+	font_size_ -= diff;
+	repaint();
+    }
+
+    public final void paint( Graphics g ){
 
 	final double[] values = new double[ 8 ];
 
