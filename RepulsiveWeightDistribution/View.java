@@ -3,8 +3,8 @@ import javax.swing.*;
 
 public class View extends JPanel {
 
-    private final static Color packing_color_ = new Color( 10, 10, 100 );
-    private final static Color minimization_color_ = new Color( 100, 10, 10 );
+    private final static Color packing_color_ = new Color( 70, 116, 193 );
+    private final static Color minimization_color_ = new Color( 235, 125, 60 );
 
     private double lambda_ = 0.0;
     private double floor_  = 0.0;
