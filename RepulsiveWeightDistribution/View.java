@@ -59,6 +59,7 @@ public class View extends JPanel {
 	    g.fillRect( horiz_unit, y, 8*horiz_unit, height );
 	}
 
+	//value labels
 	for( int i=0; i<8; ++i ){
 	    final int x = horiz_unit * (i+1);
 	    g.drawString( String.format( "%.3f", values[ i ] ), x, 3*y_buffer + 25 );
