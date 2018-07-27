@@ -9,6 +9,8 @@ public class View extends JPanel {
     private double lambda_ = 0.0;
     private double floor_  = 0.0;
 
+    private int font_size_ = 25;
+
     private final static double[] weights = { 0.02, 0.25, 0.55, 1.0 };
 
     public View(){
@@ -22,6 +24,8 @@ public class View extends JPanel {
 	final int horiz_unit = getWidth() / 10;
 	final int y_buffer = getHeight() / 4;
 
+	final int x_axis = y_buffer * 3;
+
 	//packing
 	g.setColor( packing_color_ );
 	for( int i=0; i<4; ++i ){
@@ -29,7 +33,7 @@ public class View extends JPanel {
 
 	    final int x = horiz_unit * ( 2 * i + 1 );
 	    final int y = (int) ( y_buffer + (2*y_buffer) * (1-value) );
-	    final int height = (int ) ( (2*y_buffer) * value );
+	    final int height = x_axis - y;
 
 	    values[ 2*i ] = value;
 
@@ -43,7 +47,7 @@ public class View extends JPanel {
 
 	    final int x = horiz_unit * ( 2 * i + 2 );
 	    final int y = (int) ( y_buffer + (2*y_buffer) * (1-value) );
-	    final int height = (int ) ( (2*y_buffer) * value );
+	    final int height = x_axis - y;
 
 	    values[ 2*i + 1 ] = value;
 
@@ -54,12 +58,13 @@ public class View extends JPanel {
 	//floor
 	g.setColor( Color.BLACK );	
 	if( floor_ > 0 ) {
-	    final int y = 1 + (int) ( y_buffer + (2*y_buffer) * (1-floor_) );
-	    final int height = 1 + (int ) ( (2*y_buffer) * floor_ );
+	    final int y = (int) ( y_buffer + (2*y_buffer) * (1-floor_) );
+	    final int height = x_axis - y;
 	    g.fillRect( horiz_unit, y, 8*horiz_unit, height );
 	}
 
 	//value labels
+	g.setFont( new Font( "TimesRoman", Font.PLAIN, font_size_ ) ); 
 	for( int i=0; i<8; ++i ){
 	    final int x = horiz_unit * (i+1);
 	    g.drawString( String.format( "%.3f", values[ i ] ), x, 3*y_buffer + 25 );
