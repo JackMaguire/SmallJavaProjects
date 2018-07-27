@@ -16,8 +16,6 @@ public class View extends JPanel {
     }
 
     public void paint( Graphics g ){
-	g.setColor( Color.BLACK );
-	g.drawLine( 1, 1, 5, 5 );
 
 	final int horiz_unit = getWidth() / 10;
 	final int y_buffer = getHeight() / 4;
@@ -25,7 +23,6 @@ public class View extends JPanel {
 	//packing
 	g.setColor( packing_color_ );
 	for( int i=0; i<4; ++i ){
-
 	    final double value = correctedPackingValue( weights[ i ] );
 
 	    final int x = horiz_unit * ( 2 * i + 1 );
@@ -33,9 +30,28 @@ public class View extends JPanel {
 	    final int height = (int ) ( (2*y_buffer) * value );
 
 	    g.fillRect( x, y, horiz_unit, height );
-
 	}
 
+	//minimization
+	g.setColor( minimization_color_ );
+	for( int i=0; i<4; ++i ){
+	    final double value = ( i == 3 ? 1 : correctedMinimizationValue( weights[ i ], weights[ i + 1 ] ) );
+
+	    final int x = horiz_unit * ( 2 * i + 2 );
+	    final int y = (int) ( y_buffer + (2*y_buffer) * (1-value) );
+	    final int height = (int ) ( (2*y_buffer) * value );
+
+	    g.fillRect( x, y, horiz_unit, height );
+	}
+
+
+	//floor
+	if( floor_ > 0 ) {
+	    g.setColor( Color.BLACK );	
+	    final int y = 1 + (int) ( y_buffer + (2*y_buffer) * (1-floor_) );
+	    final int height = 1 + (int ) ( (2*y_buffer) * floor_ );
+	    g.fillRect( horiz_unit, y, 8*horiz_unit, height );
+	}
     }
 
     public void setLambda( double setting ){
