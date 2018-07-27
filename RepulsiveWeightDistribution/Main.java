@@ -6,10 +6,10 @@ public class Main {
     public static void main( String[] args ){
 	JFrame F = new JFrame( "SlideShow" );
 	F.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-	//F.setExtendedState( JFrame.MAXIMIZED_BOTH );
+	F.setExtendedState( JFrame.MAXIMIZED_BOTH );
 	//F.setUndecorated( true );
-	F.setVisible( true );
 	F.add( new MainView() );
+	F.setVisible( true );
     }
 
     private final static class MainView extends JPanel {
