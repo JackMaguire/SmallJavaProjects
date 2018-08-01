@@ -3,6 +3,8 @@ import javax.swing.*;
 
 public class View extends JPanel {
 
+    private final static boolean draw_white_bg_ = false;
+
     private final static Color packing_color_ = new Color( 70, 116, 193 );
     private final static Color minimization_color_ = new Color( 235, 125, 60 );
 
@@ -34,6 +36,11 @@ public class View extends JPanel {
     }
 
     public final void paint( Graphics g ){
+
+	if( draw_white_bg_ ){
+	    g.setColor( Color.WHITE );
+	    g.fillRect( 0, 0, getWidth(), getHeight() );
+	}
 
 	final double[] values = new double[ 8 ];
 
