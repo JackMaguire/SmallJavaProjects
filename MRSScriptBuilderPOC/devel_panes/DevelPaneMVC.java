@@ -22,7 +22,9 @@ public class DevelPaneMVC implements MyMVC {
     @Override
     public JPanel getNewView() {
 	final DevelPaneView view = new DevelPaneView( model_ );
-	view.setController( new DevelPaneController( model_, view ) );
+	final DevelPaneController controller = new DevelPaneController( model_, view );
+	
+	view.setController( controller );
 	return view;
     }
 

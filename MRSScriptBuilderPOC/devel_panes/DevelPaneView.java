@@ -10,6 +10,7 @@ public class DevelPaneView extends JPanel {
 
     public DevelPaneView( DevelPaneModel model ){
 	model_ = model;
+	slider_.setValue( model.value() );
 	add( slider_ );
     }
 
