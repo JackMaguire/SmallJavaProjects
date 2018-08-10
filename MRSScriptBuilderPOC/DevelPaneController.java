@@ -17,7 +17,9 @@ public class DevelPaneController implements ChangeListener {
     public void stateChanged( ChangeEvent e ){
 	final JSlider slider = (JSlider) e.getSource();
 	final int val = slider.getValue();
+	model_.setValue( val );
 	view_.repaint();
+	//view_.revalidate();
     }
 
 

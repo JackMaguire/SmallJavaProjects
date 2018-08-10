@@ -15,8 +15,9 @@ public class DevelPaneView extends JPanel {
 	slider_.addChangeListener( controller );
     }
 
-    public void paint( Graphics g ){
-	super.paint( g );
+    @Override
+    public void paintComponent( Graphics g ){
+	//super.paint( g );
 
 	final int val = model_.getValue();
 	g.setColor( new Color( val, val, val ) );
