@@ -1,3 +1,5 @@
+package devel_panes;
+
 public class DevelPaneModel {
 
     private int value_ = 150;

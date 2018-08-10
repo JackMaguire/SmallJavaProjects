@@ -1,5 +1,9 @@
+package main;
+
 import java.awt.*;
 import javax.swing.*;
+
+import devel_panes.*;
 
 public class Main {
 

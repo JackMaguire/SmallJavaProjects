@@ -1,5 +1,9 @@
+package devel_panes;
+
 import java.awt.*;
 import javax.swing.*;
+
+import main.*;
 
 public class DevelPaneMVC implements MyMVC {
 

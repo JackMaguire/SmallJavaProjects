@@ -1,3 +1,5 @@
+package devel_panes;
+
 import java.awt.*;
 import javax.swing.*;
 
