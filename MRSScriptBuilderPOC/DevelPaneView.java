@@ -8,7 +8,7 @@ public class DevelPaneView extends JPanel {
 
     public DevelPaneView( DevelPaneModel model ){
 	model_ = model;
-	//add( slider_ );
+	add( slider_ );
     }
 
     public void setController( DevelPaneController controller ){
