@@ -9,7 +9,7 @@ public class DevelPane2MVC implements MyMVC {
 
     private final static DevelPaneModel model_ = new DevelPaneModel();
 
-    public DevelPaneMVC(){
+    public DevelPane2MVC(){
     }
 
     @Override

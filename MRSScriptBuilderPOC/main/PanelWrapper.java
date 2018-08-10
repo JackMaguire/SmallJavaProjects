@@ -10,7 +10,7 @@ public class PanelWrapper extends JPanel {
 	add( panel, BorderLayout.CENTER );
 
 	final SouthBar south_bar = new SouthBar( mvc_options );
-	//add( south_bar, BorderLayout.SOUTH );
+	add( south_bar, BorderLayout.SOUTH );
     }
 
     private final static class SouthBar extends JPanel {
