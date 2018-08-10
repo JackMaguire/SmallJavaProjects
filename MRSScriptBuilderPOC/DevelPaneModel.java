@@ -1,6 +1,6 @@
 public class DevelPaneModel {
 
-    private int value_ = 0;
+    private int value_ = 150;
 
     public DevelPaneModel(){}
 

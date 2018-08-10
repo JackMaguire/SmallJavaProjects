@@ -8,7 +8,7 @@ public class DevelPaneView extends JPanel {
 
     public DevelPaneView( DevelPaneModel model ){
 	model_ = model;
-	add( slider_ );
+	//add( slider_ );
     }
 
     public void setController( DevelPaneController controller ){
@@ -16,9 +16,13 @@ public class DevelPaneView extends JPanel {
     }
 
     public void paint( Graphics g ){
+	super.paint( g );
+
 	final int val = model_.getValue();
 	g.setColor( new Color( val, val, val ) );
 	g.fillRect( 0, 0, getWidth(), getHeight() );
+
+	//System.out.println( val );
     }
 
 }

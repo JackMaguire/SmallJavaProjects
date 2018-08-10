@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class DevelPaneMVC implements MyMVC {
 
-    private static DevelPaneModel model_ = new DevelPaneModel();
+    private final static DevelPaneModel model_ = new DevelPaneModel();
     private String title_;
 
     public DevelPaneMVC( String title ){
@@ -17,7 +17,7 @@ public class DevelPaneMVC implements MyMVC {
 
     @Override
     public JPanel getNewView() {
-	DevelPaneView view = new DevelPaneView( model_ );
+	final DevelPaneView view = new DevelPaneView( model_ );
 	view.setController( new DevelPaneController( model_, view ) );
 	return view;
     }
