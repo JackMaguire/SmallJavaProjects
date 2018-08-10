@@ -7,11 +7,11 @@ public class ControlPanel extends JPanel implements ActionListener,ChangeListene
 
     private final View view_;
 
-    private final static JSlider lambda_slider_ = new JSlider( 0, 100 );
-    private final static TextButtPair lambda_pair_ = new TextButtPair();
+    private final JSlider lambda_slider_ = new JSlider( 0, 100 );
+    private final TextButtPair lambda_pair_ = new TextButtPair();
 
-    private final static JSlider floor_slider_ = new JSlider( 0, 100 );
-    private final static TextButtPair floor_pair_ = new TextButtPair();
+    private final JSlider floor_slider_ = new JSlider( 0, 100 );
+    private final TextButtPair floor_pair_ = new TextButtPair();
 
     public ControlPanel( View view ){
 	view_ = view;
