@@ -19,4 +19,11 @@ public class StagePaneModel {
 	//TODO
     }
 
+    public int numStages(){
+	return total_num_jobs_to_keep_per_stage_.length();
+    }
+
+    public StageModel getStage( int zero_indexed_stage_index ){
+	return total_num_jobs_to_keep_per_stage_.at( zero_indexed_stage_index );
+    }
 }
