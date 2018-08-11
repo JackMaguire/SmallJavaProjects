@@ -20,10 +20,10 @@ public class StagePaneModel {
     }
 
     public int numStages(){
-	return total_num_jobs_to_keep_per_stage_.length();
+	return total_num_jobs_to_keep_per_stage_.size();
     }
 
     public StageModel getStage( int zero_indexed_stage_index ){
-	return total_num_jobs_to_keep_per_stage_.at( zero_indexed_stage_index );
+	return total_num_jobs_to_keep_per_stage_.get( zero_indexed_stage_index );
     }
 }
