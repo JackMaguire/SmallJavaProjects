@@ -1,7 +1,11 @@
 package HeatMapGenerator;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
+
+import javax.imageio.ImageIO;
 
 public class HeatMapGenerator {
 
@@ -9,11 +13,15 @@ public class HeatMapGenerator {
 	public static String filename = "";
 	public static String output = "";
 
+	private static double min = 0;
+	private static double max = 100;
+	private static int res = 1000;
+	
 	public static void main( String[] args ) throws IOException {
 
 		parse_args( args );
 
-		HeatMap hm = new HeatMap( 0, 100, 1, 0, 100, 1, 1 );
+		HeatMap hm = new HeatMap( min, max, 1, min, max, 1, 1 );
 		BufferedReader in = new BufferedReader( new FileReader( filename ) );
 		for( String s = in.readLine(); s != null; s = in.readLine() ) {
 			double x = Double.parseDouble( s.split( "," )[0] );
@@ -22,11 +30,26 @@ public class HeatMapGenerator {
 		}
 		in.close();
 
+		hm.normalize();
+		BufferedImage bi = drawImage( hm, new BWColorer() );
+		File outputfile = new File( output );
+		ImageIO.write(bi, "png", outputfile);
 	}
 
 	private static BufferedImage drawImage( HeatMap hm, Colorer colorer ) {
-		BufferedImage img = new BufferedImage( 1000, 1000, BufferedImage.TYPE_INT_ARGB );
-		
+		BufferedImage img = new BufferedImage( res, res, BufferedImage.TYPE_INT_ARGB );
+		Graphics2D g2 = img.createGraphics();
+		for( int i=0; i<res; ++i) {
+			for( int j=0; i<res; ++j ) {
+				int x = i;
+				int y = res - j;
+				double x_val = min + (max-min)*((double) x) / res;
+				double y_val = min + (max-min)*((double) y) / res;
+				Color c = colorer.colorForVal( hm.interpolated_val( x_val, y_val ) );
+				g2.setColor( c );
+				g2.fillRect( x, y, 1, 1 );
+			}
+		}
 		return img;
 	}
 

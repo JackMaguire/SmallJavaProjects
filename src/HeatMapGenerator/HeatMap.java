@@ -57,35 +57,37 @@ public class HeatMap {
 		}
 		max_heat_ = 1;
 	}
-	
+
 	public void smoothen() {
 		final int num_x = x_vals_.length;
 		final int num_y = y_vals_.length;
-		double[][]	 heat2 = new double[ num_x ][ num_y ];
-		
+		double[][] heat2 = new double[ num_x ][ num_y ];
+
 		for( int i = 0; i < num_x; ++i ) {
 			for( int j = 0; j < num_y; ++j ) {
-				//val/2 + sum(8 nbrs)/16
+				// val/2 + sum(8 nbrs)/16
 				double val = heat2[ i ][ j ] / 2;
 				heat2[ i ][ j ] = heat_[ i ][ j ];
-				
+
 				for( int di = -1; di < 2; ++di ) {
 					for( int dj = -1; dj < 2; ++dj ) {
-						if( di == dj ) continue;
+						if( di == dj )
+							continue;
 						final int newi = i + di;
 						final int newj = j + dj;
-						if( newi < 0 || newj < 0 || newi == num_x || newj == num_y ) continue;
+						if( newi < 0 || newj < 0 || newi == num_x || newj == num_y )
+							continue;
 						heat2[ i ][ j ] += heat_[ newi ][ newj ] / 16.0;
 					}
 				}
 			}
 		}
 	}
-	
+
 	public double interpolated_val( double x, double y ) {
 		boolean x_match = false;
 		int I = 0;
-		for( int i=0; i<x_vals_.length; ++i ) {
+		for( int i = 0; i < x_vals_.length; ++i ) {
 			if( x == x_vals_[ i ] ) {
 				I = i;
 				x_match = true;
@@ -103,11 +105,11 @@ public class HeatMap {
 				x_match = false;
 				break;
 			}
-		}// for i
-		
+		} // for i
+
 		boolean y_match = false;
 		int J = 0;
-		for( int j=0; j<y_vals_.length; ++j ) {
+		for( int j = 0; j < y_vals_.length; ++j ) {
 			if( y == y_vals_[ j ] ) {
 				J = j;
 				y_match = true;
@@ -125,25 +127,57 @@ public class HeatMap {
 				y_match = false;
 				break;
 			}
-		}// for j
-		
+		} // for j
+
 		if( x_match && y_match ) {
 			return heat_[ I ][ J ];
 		} else if( x_match ) {
 			return calc_xmatch( x, y, I, J );
+		} else if( y_match ) {
+			return calc_ymatch( x, y, I, J );
+		} else {
+			return calc_no_match( x, y, I, J );
 		}
-		
-		return 0;
+
 	}
-	
+
 	private double calc_xmatch( double x, double y, int I, int J ) {
 		double smaller_y_val = heat_[ I ][ J ];
 		double larger_y_val = heat_[ I ][ J + 1 ];
 		double frac = get_interp_factor( y_vals_[ J ], y_vals_[ J + 1 ], y );
-		return (smaller_y_val * (1-frac)) + (larger_y_val * frac);
+		return ( smaller_y_val * ( 1 - frac ) ) + ( larger_y_val * frac );
 	}
-	
+
+	private double calc_ymatch( double x, double y, int I, int J ) {
+		double smaller_x_val = heat_[ I ][ J ];
+		double larger_x_val = heat_[ I + 1 ][ J ];
+		double frac = get_interp_factor( x_vals_[ I ], x_vals_[ I + 1 ], x );
+		return ( smaller_x_val * ( 1 - frac ) ) + ( larger_x_val * frac );
+	}
+
+	private double dist( double x1, double y1, double x2, double y2 ) {
+		return Math.sqrt( Math.pow( x1 - x2, 2 ) + Math.pow( y1 - y2, 2 ) );
+	}
+
+	private double calc_no_match( double x, double y, int I, int J ) {
+		final double dist_top_left = dist( x, y, x_vals_[ I ], y_vals_[ J + 1 ] );
+		final double dist_top_right = dist( x, y, x_vals_[ I + 1 ], y_vals_[ J + 1 ] );
+		final double dist_bottom_left = dist( x, y, x_vals_[ I ], y_vals_[ J ] );
+		final double dist_bottom_right = dist( x, y, x_vals_[ I + 1 ], y_vals_[ J ] );
+
+		final double val_top_left = heat_[ I ][ J + 1 ];
+		final double val_top_right = heat_[ I + 1 ][ J + 1 ];
+		final double val_bottom_left = heat_[ I ][ J ];
+		final double val_bottom_right = heat_[ I + 1 ][ J ];
+
+		final double numerator = ( 1.0 / dist_top_left ) + ( 1.0 / dist_top_right )
+				+ ( 1.0 / dist_bottom_left ) + ( 1.0 / dist_bottom_right );
+		final double denominator = ( val_top_left / dist_top_left ) + ( val_top_right / dist_top_right )
+				+ ( val_bottom_left / dist_bottom_left ) + ( val_bottom_right / dist_bottom_right );
+		return numerator / denominator;
+	}
+
 	private double get_interp_factor( double before, double after, double i ) {
-		return (i - before)/(after - before);
+		return ( i - before ) / ( after - before );
 	}
 }
