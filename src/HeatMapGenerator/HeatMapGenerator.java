@@ -45,7 +45,7 @@ public class HeatMapGenerator {
 		BufferedImage img = new BufferedImage( res, res, BufferedImage.TYPE_INT_ARGB );
 		Graphics2D g2 = img.createGraphics();
 		for( int i=0; i<res; ++i) {
-			for( int j=0; i<res; ++j ) {
+			for( int j=0; j<res; ++j ) {
 				int x = i;
 				int y = res - j;
 				double x_val = min + (max-min)*((double) x) / res;

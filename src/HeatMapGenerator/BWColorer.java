@@ -20,7 +20,17 @@ public class BWColorer implements Colorer {
 		if( !white_is_one_ ) {
 			a = 255 - a;
 		}
-		return new Color(a,a,a);
+		if( a < 0 ) a = 0;
+		if( a > 255 ) a = 255;
+		
+		Color c = null;
+		try {
+			c = new Color(a,a,a);
+		} catch( Exception e ) {
+			System.out.println( "val: " + val + " returned a: " + a );
+			System.exit( 1 );
+		}
+		return c;
 	}
 
 }

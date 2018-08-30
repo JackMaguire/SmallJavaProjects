@@ -165,15 +165,29 @@ public class HeatMap {
 		final double dist_bottom_left = dist( x, y, x_vals_[ I ], y_vals_[ J ] );
 		final double dist_bottom_right = dist( x, y, x_vals_[ I + 1 ], y_vals_[ J ] );
 
+		//System.out.println( dist_top_left );
+		//System.out.println( dist_top_right );
+		//System.out.println( dist_bottom_left );
+		//System.out.println( dist_bottom_right );
+		
 		final double val_top_left = heat_[ I ][ J + 1 ];
 		final double val_top_right = heat_[ I + 1 ][ J + 1 ];
 		final double val_bottom_left = heat_[ I ][ J ];
 		final double val_bottom_right = heat_[ I + 1 ][ J ];
 
-		final double numerator = ( 1.0 / dist_top_left ) + ( 1.0 / dist_top_right )
-				+ ( 1.0 / dist_bottom_left ) + ( 1.0 / dist_bottom_right );
-		final double denominator = ( val_top_left / dist_top_left ) + ( val_top_right / dist_top_right )
+		//System.out.println( val_top_left );
+		//System.out.println( val_top_right );
+		//System.out.println( val_bottom_left );
+		//System.out.println( val_bottom_right );
+		
+		final double numerator = ( val_top_left / dist_top_left ) + ( val_top_right / dist_top_right )
 				+ ( val_bottom_left / dist_bottom_left ) + ( val_bottom_right / dist_bottom_right );
+		final double denominator = ( 1.0 / dist_top_left ) + ( 1.0 / dist_top_right )
+				+ ( 1.0 / dist_bottom_left ) + ( 1.0 / dist_bottom_right );
+		
+		//System.out.println( numerator );
+		//System.out.println( denominator );
+		//System.exit( 1 );
 		return numerator / denominator;
 	}
 
