@@ -1,3 +1,4 @@
+package HeatMapGenerator;
 import java.io.*;
 public class HeatMapGenerator {
 
@@ -16,3 +17,4 @@ public class HeatMapGenerator {
 		}
 	}
 }
+
