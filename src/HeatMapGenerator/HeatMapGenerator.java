@@ -37,7 +37,7 @@ public class HeatMapGenerator {
 		
 		hm.smoothen();
 		BufferedImage bi2 = drawImage( hm, new BWColorer() );
-		File outputfile2 = new File( "smooth." + output );
+		File outputfile2 = new File( output + ".smooth.png" );
 		ImageIO.write(bi2, "png", outputfile2);
 	}
 
