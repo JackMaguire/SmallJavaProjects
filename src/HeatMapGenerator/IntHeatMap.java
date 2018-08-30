@@ -62,6 +62,14 @@ public class IntHeatMap {
 	public void normalize() {
 		for( int i = 0; i < x_vals_.length; ++i ) {
 			for( int j = 0; j < y_vals_.length; ++j ) {
+				if( heat_[ i ][ j ] > max_heat_ ) {
+					max_heat_ = heat_[ i ][ j ]; 
+				}
+			}
+		}
+		
+		for( int i = 0; i < x_vals_.length; ++i ) {
+			for( int j = 0; j < y_vals_.length; ++j ) {
 				heat_[ i ][ j ] /= max_heat_;
 			}
 		}
@@ -102,6 +110,7 @@ public class IntHeatMap {
 			for( int j=0; j<ny; ++j ) {
 				int x = i;
 				int y = ny - j;
+				//System.out.println( heat_[ i ][ j ] );
 				Color c = colorer.colorForVal( heat_[ i ][ j ] );
 				g2.setColor( c );
 				g2.fillRect( x, y, 1, 1 );

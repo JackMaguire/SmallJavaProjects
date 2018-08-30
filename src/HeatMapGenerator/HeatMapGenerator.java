@@ -13,11 +13,37 @@ public class HeatMapGenerator {
 	public static String filename = "";
 	public static String output = "";
 
-	private static double min = 0;
-	private static double max = 50;
+	private static int min = 0;
+	private static int max = 50;
 	private static int res = 1000;
 	
+	private static Colorer colorer = new BWColorer();
+	
 	public static void main( String[] args ) throws IOException {
+
+		parse_args( args );
+
+		IntHeatMap hm = new IntHeatMap( min, max, 1, min, max, 1, IntHeatMap.AddType.SINGLE );
+		BufferedReader in = new BufferedReader( new FileReader( filename ) );
+		for( String s = in.readLine(); s != null; s = in.readLine() ) {
+			int x = Integer.parseInt( s.split( "," )[0] );
+			int y = Integer.parseInt( s.split( "," )[1] );
+			hm.addVal( x, y );
+		}
+		in.close();
+
+		hm.normalize();
+		BufferedImage bi = hm.createImage( colorer );
+		File outputfile = new File( output );
+		ImageIO.write(bi, "png", outputfile);
+		
+		hm.smoothen();
+		BufferedImage bi2 = hm.createImage( colorer );
+		File outputfile2 = new File( output + ".smooth.png" );
+		ImageIO.write(bi2, "png", outputfile2);
+	}
+	
+	public static void main2( String[] args ) throws IOException {
 
 		parse_args( args );
 
