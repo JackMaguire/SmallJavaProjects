@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class IntHeatMap {
 
-	private final double[][] heat_;
+	private double[][] heat_;
 	private final int[] x_vals_;
 	private final int[] y_vals_;
 
@@ -99,6 +99,8 @@ public class IntHeatMap {
 				}
 			}
 		}
+		
+		heat_ = heat2;
 	}
 
 	BufferedImage createImage( Colorer colorer ) {

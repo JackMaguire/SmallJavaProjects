@@ -2,7 +2,7 @@ package HeatMapGenerator;
 
 public class HeatMap {
 
-	private final double[][] heat_;
+	private double[][] heat_;
 	private final double[] x_vals_;
 	private final double[] y_vals_;
 	// private final int min
@@ -82,6 +82,8 @@ public class HeatMap {
 				}
 			}
 		}
+		
+		heat_ = heat2;
 	}
 
 	public double interpolated_val( double x, double y ) {
