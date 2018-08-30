@@ -47,4 +47,13 @@ public class HeatMap {
 			}
 		}
 	}
+	
+	public void normalize() {
+		for( int i=0; i < x_vals_.length; ++i ) {
+			for( int j=0; j < y_vals_.length; ++j ) {
+				heat_[ i ][ j ] /= max_heat_;
+			}
+		}
+		max_heat_ = 1;
+	}
 }
