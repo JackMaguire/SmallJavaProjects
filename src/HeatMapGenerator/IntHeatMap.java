@@ -1,5 +1,9 @@
 package HeatMapGenerator;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 public class IntHeatMap {
 
 	private final double[][] heat_;
@@ -89,5 +93,20 @@ public class IntHeatMap {
 		}
 	}
 
-	
+	BufferedImage createImage( Colorer colorer ) {
+		final int nx = x_vals_.length;
+		final int ny = y_vals_.length;
+		BufferedImage img = new BufferedImage( nx, ny, BufferedImage.TYPE_INT_ARGB );
+		Graphics2D g2 = img.createGraphics();
+		for( int i=0; i<nx; ++i) {
+			for( int j=0; j<ny; ++j ) {
+				int x = i;
+				int y = ny - j;
+				Color c = colorer.colorForVal( heat_[ i ][ j ] );
+				g2.setColor( c );
+				g2.fillRect( x, y, 1, 1 );
+			}
+		}
+		return img;
+	}
 }
