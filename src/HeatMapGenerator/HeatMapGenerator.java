@@ -37,10 +37,10 @@ public class HeatMapGenerator {
 		File outputfile = new File( output );
 		ImageIO.write(bi, "png", outputfile);
 		
-		hm.smoothen();
-		BufferedImage bi2 = hm.createImage( colorer );
-		File outputfile2 = new File( output + ".smooth.png" );
-		ImageIO.write(bi2, "png", outputfile2);
+		//hm.smoothen();
+		//BufferedImage bi2 = hm.createImage( colorer );
+		//File outputfile2 = new File( output + ".smooth.png" );
+		//ImageIO.write(bi2, "png", outputfile2);
 	}
 	
 	public static void main2( String[] args ) throws IOException {
