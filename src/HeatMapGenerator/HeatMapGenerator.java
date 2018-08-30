@@ -1,5 +1,6 @@
 package HeatMapGenerator;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class HeatMapGenerator {
@@ -20,7 +21,13 @@ public class HeatMapGenerator {
 			hm.addVal( x, y );
 		}
 		in.close();
+
+	}
+
+	private static BufferedImage drawImage( HeatMap hm, Colorer colorer ) {
+		BufferedImage img = new BufferedImage( 1000, 1000, BufferedImage.TYPE_INT_ARGB );
 		
+		return img;
 	}
 
 	private static void parse_args( String[] args ) {

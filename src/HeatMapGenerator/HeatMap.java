@@ -57,4 +57,28 @@ public class HeatMap {
 		}
 		max_heat_ = 1;
 	}
+	
+	public void smoothen() {
+		final int num_x = x_vals_.length;
+		final int num_y = y_vals_.length;
+		double[][]	 heat2 = new double[ num_x ][ num_y ];
+		
+		for( int i = 0; i < num_x; ++i ) {
+			for( int j = 0; j < num_y; ++j ) {
+				//val/2 + sum(8 nbrs)/16
+				double val = heat2[ i ][ j ] / 2;
+				heat2[ i ][ j ] = heat_[ i ][ j ];
+				
+				for( int di = -1; di < 2; ++di ) {
+					for( int dj = -1; dj < 2; ++dj ) {
+						if( di == dj ) continue;
+						final int newi = i + di;
+						final int newj = j + dj;
+						if( newi < 0 || newj < 0 || newi == num_x || newj == num_y ) continue;
+						heat2[ i ][ j ] += heat_[ newi ][ newj ] / 16.0;
+					}
+				}
+			}
+		}
+	}
 }
