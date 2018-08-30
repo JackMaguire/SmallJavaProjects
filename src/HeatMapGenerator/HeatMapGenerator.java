@@ -25,23 +25,23 @@ public class HeatMapGenerator {
 
 	private static void parse_args( String[] args ) {
 		for( int i = 0; i < args.length; ++i ) {
-			if( args[ i ].equals( "--filename" ) ) {
+			if( args[ i ].equals( "-filename" ) ) {
 				filename = args[ ++i ];
 				continue;
 			}
-			if( args[ i ].equals( "--output" ) ) {
+			if( args[ i ].equals( "-output" ) ) {
 				output = args[ ++i ];
 				continue;
 			}
 		}
 		
 		if( filename.length() == 0 ) {
-			System.out.println( "Need --filename" );
+			System.out.println( "Need -filename" );
 			System.exit( 1 );
 		}
 		
 		if( output.length() == 0 ) {
-			System.out.println( "Need --output" );
+			System.out.println( "Need -output" );
 			System.exit( 1 );
 		}
 	}
