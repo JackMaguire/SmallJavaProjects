@@ -14,7 +14,7 @@ public class HeatMapGenerator {
 	public static String output = "";
 
 	private static double min = 0;
-	private static double max = 100;
+	private static double max = 50;
 	private static int res = 1000;
 	
 	public static void main( String[] args ) throws IOException {
