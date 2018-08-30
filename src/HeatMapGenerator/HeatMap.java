@@ -81,4 +81,69 @@ public class HeatMap {
 			}
 		}
 	}
+	
+	public double interpolated_val( double x, double y ) {
+		boolean x_match = false;
+		int I = 0;
+		for( int i=0; i<x_vals_.length; ++i ) {
+			if( x == x_vals_[ i ] ) {
+				I = i;
+				x_match = true;
+				break;
+			} else if( x < x_vals_[ i ] ) {
+				I = i;
+				x_match = true;
+				break;
+			} else if( x > x_vals_[ i ] && i == x_vals_.length - 1 ) {
+				I = i;
+				x_match = true;
+				break;
+			} else if( x > x_vals_[ i ] && x < x_vals_[ i + 1 ] ) {
+				I = i;
+				x_match = false;
+				break;
+			}
+		}// for i
+		
+		boolean y_match = false;
+		int J = 0;
+		for( int j=0; j<y_vals_.length; ++j ) {
+			if( y == y_vals_[ j ] ) {
+				J = j;
+				y_match = true;
+				break;
+			} else if( y < y_vals_[ j ] ) {
+				J = j;
+				y_match = true;
+				break;
+			} else if( y > y_vals_[ j ] && j == y_vals_.length - 1 ) {
+				J = j;
+				y_match = true;
+				break;
+			} else if( y > y_vals_[ j ] && y < y_vals_[ j + 1 ] ) {
+				J = j;
+				y_match = false;
+				break;
+			}
+		}// for j
+		
+		if( x_match && y_match ) {
+			return heat_[ I ][ J ];
+		} else if( x_match ) {
+			return calc_xmatch( x, y, I, J );
+		}
+		
+		return 0;
+	}
+	
+	private double calc_xmatch( double x, double y, int I, int J ) {
+		double smaller_y_val = heat_[ I ][ J ];
+		double larger_y_val = heat_[ I ][ J + 1 ];
+		double frac = get_interp_factor( y_vals_[ J ], y_vals_[ J + 1 ], y );
+		return (smaller_y_val * (1-frac)) + (larger_y_val * frac);
+	}
+	
+	private double get_interp_factor( double before, double after, double i ) {
+		return (i - before)/(after - before);
+	}
 }
