@@ -1,5 +1,6 @@
 package HeatMapGenerator;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,9 @@ public class IntHeatMap {
 	private final int[] x_vals_;
 	private final int[] y_vals_;
 
+	private final int dx_;
+	private final int dy_;
+	
 	private double max_heat_ = 0;
 
 	enum AddType {
@@ -21,7 +25,8 @@ public class IntHeatMap {
 	
 	public IntHeatMap( int min_x, int max_x, int dx, int min_y, int max_y, int dy, AddType add_type ) {
 		add_type_ = add_type; 
-
+		dx_ = dx;
+		dy_ = dy;
 		final int num_x = 1 + (int) ( ( max_x - min_x ) / ( dx ) );
 		final int num_y = 1 + (int) ( ( max_y - min_y ) / ( dy ) );
 		heat_ = new double[ num_x ][ num_y ];
@@ -103,6 +108,10 @@ public class IntHeatMap {
 		heat_ = heat2;
 	}
 
+	int val2y( double y ) {
+		return 0;
+	}
+	
 	BufferedImage createImage( Colorer colorer, int box_size, Line line ) {
 		final int nx = x_vals_.length;
 		final int ny = y_vals_.length;
@@ -117,6 +126,23 @@ public class IntHeatMap {
 				g2.setColor( c );
 				g2.fillRect( x, y, box_size, box_size );
 			}
+		}
+		
+		if( line != null ) {
+			g2.setColor( Color.RED );
+			g2.setStroke(new BasicStroke(3));
+			int x1 = box_size/2;
+			int x2 = (nx-1)*box_size + box_size/2;
+			double x_val1 = x_vals_[ 0 ];
+			double x_val2 = x_vals_[ nx-1 ];
+			
+			double y_val1 = line.m * x_val1 + line.b;
+			double y_val2 = line.m * x_val2 + line.b;
+			int y1 = 0, y2 = 0;
+			//for( int i=0; i<nx-1; ++i ) {
+				//int x1 = i*box_size;
+				//int x2 = 
+			//}
 		}
 		return img;
 	}
