@@ -18,6 +18,8 @@ public class HeatMapGenerator {
 	private static int res = 1000;
 	
 	private static int box_size = 10;
+	private static double m_ = 0;
+	private static double b_ = 0;
 	
 	private static Colorer colorer = new BWColorer();
 	
@@ -35,6 +37,12 @@ public class HeatMapGenerator {
 		in.close();
 
 		hm.normalize();
+		Line line = null;
+		if( m_ != 0 || b_ != 0 ) {
+			line = new Line();
+			line.m = m_;
+			line.b = b_;
+		}
 		BufferedImage bi = hm.createImage( colorer, box_size, null );
 		File outputfile = new File( output );
 		ImageIO.write(bi, "png", outputfile);
@@ -43,6 +51,37 @@ public class HeatMapGenerator {
 		//BufferedImage bi2 = hm.createImage( colorer );
 		//File outputfile2 = new File( output + ".smooth.png" );
 		//ImageIO.write(bi2, "png", outputfile2);
+	}
+	
+	private static void parse_args( String[] args ) {
+		for( int i = 0; i < args.length; ++i ) {
+			if( args[ i ].equals( "-filename" ) ) {
+				filename = args[ ++i ];
+				continue;
+			}
+			if( args[ i ].equals( "-output" ) ) {
+				output = args[ ++i ];
+				continue;
+			}
+			if( args[ i ].equals( "-m" ) ) {
+				m_ = Double.parseDouble( args[ ++i ] );
+				continue;
+			}
+			if( args[ i ].equals( "-b" ) ) {
+				b_ = Double.parseDouble( args[ ++i ] );
+				continue;
+			}
+		}
+		
+		if( filename.length() == 0 ) {
+			System.out.println( "Need -filename" );
+			System.exit( 1 );
+		}
+		
+		if( output.length() == 0 ) {
+			System.out.println( "Need -output" );
+			System.exit( 1 );
+		}
 	}
 	
 	public static void main2( String[] args ) throws IOException {
@@ -86,26 +125,4 @@ public class HeatMapGenerator {
 		return img;
 	}
 
-	private static void parse_args( String[] args ) {
-		for( int i = 0; i < args.length; ++i ) {
-			if( args[ i ].equals( "-filename" ) ) {
-				filename = args[ ++i ];
-				continue;
-			}
-			if( args[ i ].equals( "-output" ) ) {
-				output = args[ ++i ];
-				continue;
-			}
-		}
-		
-		if( filename.length() == 0 ) {
-			System.out.println( "Need -filename" );
-			System.exit( 1 );
-		}
-		
-		if( output.length() == 0 ) {
-			System.out.println( "Need -output" );
-			System.exit( 1 );
-		}
-	}
 }
