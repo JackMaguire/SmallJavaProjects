@@ -68,22 +68,22 @@ public class IntHeatMap {
 	}
 
 	public void normalize() {
-	    max_heat_ = 0;
-	    int max_i = 0;
-	    int max_j = 0;
-	    System.out.println( heat_[ 0 ][ 0 ] );
+		max_heat_ = 0;
+		int max_i = 0;
+		int max_j = 0;
+		System.out.println( heat_[ 0 ][ 0 ] );
 		for( int i = 0; i < x_vals_.length; ++i ) {
 			for( int j = 0; j < y_vals_.length; ++j ) {
-			    //System.out.println( i + j );
+				// System.out.println( i + j );
 				if( heat_[ i ][ j ] > max_heat_ ) {
-				    max_i = i;
-				    max_j = j;
-					max_heat_ = heat_[ i ][ j ]; 
+					max_i = i;
+					max_j = j;
+					max_heat_ = heat_[ i ][ j ];
 				}
 			}
 		}
 		System.out.println( "max_i = " + max_i + " max_j = " + max_j );
-		
+
 		for( int i = 0; i < x_vals_.length; ++i ) {
 			for( int j = 0; j < y_vals_.length; ++j ) {
 				heat_[ i ][ j ] /= max_heat_;
@@ -121,7 +121,7 @@ public class IntHeatMap {
 
 	int val2y( double val, int box_size, int ny ) {
 		double bs = (double) box_size;
-		int y = (int)(bs*val/dy_) + (int)(bs*((val%dy_)/dy_));
+		int y = (int) ( bs * val / dy_ ) + (int) ( bs * ( ( val % dy_ ) / dy_ ) );
 		System.out.println( "Value of " + val + " goes to a y of " + y );
 		return ny * box_size - y;
 	}
