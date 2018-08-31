@@ -43,7 +43,7 @@ public class HeatMapGenerator {
 			line.m = m_;
 			line.b = b_;
 		}
-		BufferedImage bi = hm.createImage( colorer, box_size, null );
+		BufferedImage bi = hm.createImage( colorer, box_size, line );
 		File outputfile = new File( output );
 		ImageIO.write(bi, "png", outputfile);
 		
