@@ -108,11 +108,11 @@ public class IntHeatMap {
 		heat_ = heat2;
 	}
 
-	int val2y( double val, int box_size ) {
+	int val2y( double val, int box_size, int ny ) {
 		double bs = (double) box_size;
 		int y = (int)(val/dy_) + (int)(bs*((val%dy_)/dy_));
 		System.out.println( "Value of " + val + " goes to a y of " + y );
-		return y;
+		return ny*box_size - y;
 	}
 	
 	BufferedImage createImage( Colorer colorer, int box_size, Line line ) {
@@ -141,8 +141,8 @@ public class IntHeatMap {
 			
 			double y_val1 = line.m * x_val1 + line.b;
 			double y_val2 = line.m * x_val2 + line.b;
-			int y1 = val2y( y_val1, box_size );
-			int y2 = val2y( y_val2, box_size );
+			int y1 = val2y( y_val1, box_size, ny );
+			int y2 = val2y( y_val2, box_size, ny );
 			g2.drawLine( x1, y1, x2, y2 );
 		}
 		return img;
