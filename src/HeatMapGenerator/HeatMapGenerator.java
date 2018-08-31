@@ -17,6 +17,8 @@ public class HeatMapGenerator {
 	private static int max = 50;
 	private static int res = 1000;
 	
+	private static int box_size = 10;
+	
 	private static Colorer colorer = new BWColorer();
 	
 	public static void main( String[] args ) throws IOException {
@@ -33,7 +35,7 @@ public class HeatMapGenerator {
 		in.close();
 
 		hm.normalize();
-		BufferedImage bi = hm.createImage( colorer );
+		BufferedImage bi = hm.createImage( colorer, box_size, null );
 		File outputfile = new File( output );
 		ImageIO.write(bi, "png", outputfile);
 		

@@ -103,19 +103,19 @@ public class IntHeatMap {
 		heat_ = heat2;
 	}
 
-	BufferedImage createImage( Colorer colorer ) {
+	BufferedImage createImage( Colorer colorer, int box_size, Line line ) {
 		final int nx = x_vals_.length;
 		final int ny = y_vals_.length;
-		BufferedImage img = new BufferedImage( nx, ny, BufferedImage.TYPE_INT_ARGB );
+		BufferedImage img = new BufferedImage( nx*box_size, ny*box_size, BufferedImage.TYPE_INT_ARGB );
 		Graphics2D g2 = img.createGraphics();
 		for( int i=0; i<nx; ++i) {
 			for( int j=0; j<ny; ++j ) {
-				int x = i;
-				int y = ny - j;
+				int x = i*box_size;
+				int y = (ny - j)*box_size;
 				//System.out.println( heat_[ i ][ j ] );
 				Color c = colorer.colorForVal( heat_[ i ][ j ] );
 				g2.setColor( c );
-				g2.fillRect( x, y, 1, 1 );
+				g2.fillRect( x, y, box_size, box_size );
 			}
 		}
 		return img;
