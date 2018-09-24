@@ -27,7 +27,23 @@ public class RBColorer implements Colorer {
 	}
 	
 	@Override
-	public Color colorForVal( double val1, double val2 ) {//val1 is red, val2 is blue
+	public Color colorForVal( double val1, double val2 ) {//val1
+		int a = (int) ( 255 * val1 );
+		if( a < 0 )
+			a = 0;
+		if( a > 255 )
+			a = 255;
+
+		int b = (int) ( 255 * val2 );
+		if( b < 0 )
+			b = 0;
+		if( b > 255 )
+			b = 255;
+	
+		return new Color( a, 0, b );
+	}
+	
+	public Color colorForValNO( double val1, double val2 ) {//val1 is red, val2 is blue
 		/*    val1    val2    R   G   B
 		 *       0       1    0   0  255
 		 *       1       0   255  0   0
@@ -66,7 +82,7 @@ public class RBColorer implements Colorer {
 
 	@Override
 	public Color colorForLine( ) {
-		return Color.black;
+		return Color.white;
 	}
 	
 }

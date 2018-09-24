@@ -120,15 +120,16 @@ public class DoubleSetIntHeatMap {
 
 		heat1_ = heat2;
 	}*/
-
-	int val2y( double val, int box_size, int ny ) {
-		double bs = (double) box_size;
-		int y = (int) ( bs * val / dy_ ) + (int) ( bs * ( ( val % dy_ ) / dy_ ) );
-		System.out.println( "Value of " + val + " goes to a y of " + y );
-		return ny * box_size - y;
+	
+	int val2y( double val, int min_y, int max_y, int height ) {
+		return (int)( height * (1 - (val - min_y) / (max_y - min_y) ) );
+	}
+	
+	int val2x( double val, int min, int max, int width ) {
+		return (int)( width * (1 - (val - min) / (max - min) ) );
 	}
 
-	BufferedImage createImage( Colorer colorer, int box_size, Line line ) {
+	BufferedImage createImage( Colorer colorer, int box_size, Line line, int min_x, int max_x, int width, int min_y, int max_y, int height  ) {
 		final int nx = x_vals_.length;
 		final int ny = y_vals_.length;
 		BufferedImage img = new BufferedImage( nx * box_size, ny * box_size, BufferedImage.TYPE_INT_ARGB );
@@ -146,15 +147,23 @@ public class DoubleSetIntHeatMap {
 		if( line != null ) {
 			g2.setColor( colorer.colorForLine() );
 			g2.setStroke( new BasicStroke( 3 ) );
-			int x1 = box_size / 2;
-			int x2 = ( nx - 1 ) * box_size + box_size / 2;
+			int x1 = 0;//box_size / 2;
+			int x2 = 999;//( nx - 1 ) * box_size + box_size / 2;
+			//double x_val1 = val2x( x_vals_[0], min_x, max_x, width );
+			//double x_val2 = val2x( x_vals_[ nx - 1 ], min_x, max_x, width );
 			double x_val1 = x_vals_[ 0 ];
 			double x_val2 = x_vals_[ nx - 1 ];
 
 			double y_val1 = line.m * x_val1 + line.b;
 			double y_val2 = line.m * x_val2 + line.b;
-			int y1 = val2y( y_val1, box_size, ny );
-			int y2 = val2y( y_val2, box_size, ny );
+			int y1 = val2y( y_val1, min_y, max_y, height );
+			int y2 = val2y( y_val2, min_y, max_y, height );
+			
+			System.out.println( "y_val1: " + y_val1 + "\t" + y1 );
+			System.out.println( "y_val2: " + y_val2 + "\t" + y2 );
+			System.out.println( "x_val1: " + x_val1 + "\t" + x1 );
+			System.out.println( "x_val2: " + x_val2 + "\t" + x2 );
+			
 			g2.drawLine( x1, y1, x2, y2 );
 		}
 		return img;

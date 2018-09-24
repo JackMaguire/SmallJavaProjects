@@ -28,7 +28,7 @@ public class Int2DHeatMapGenerator {
 
 		parse_args( args );
 
-		DoubleSetIntHeatMap hm = new DoubleSetIntHeatMap( min, max, 1, min, max, 1, DoubleSetIntHeatMap.AddType.SINGLE );
+		DoubleSetIntHeatMap hm = new DoubleSetIntHeatMap( min, max-1, 1, min, max-1, 1, DoubleSetIntHeatMap.AddType.SINGLE );
 		BufferedReader in = new BufferedReader( new FileReader( filename1 ) );
 		for( String s = in.readLine(); s != null; s = in.readLine() ) {
 			int x = (int) Double.parseDouble( s.split( "," )[ 0 ] );
@@ -45,14 +45,18 @@ public class Int2DHeatMapGenerator {
 		}
 		in.close();
 
-		//hm.normalize();
+		hm.normalize( hm.heat1() );
+		hm.normalize( hm.heat2() );
+		
 		Line line = null;
 		if( m_ != 0 || b_ != 0 ) {
 			line = new Line();
 			line.m = m_;
 			line.b = b_;
 		}
-		BufferedImage bi = hm.createImage( colorer, box_size, line );
+		
+		//Colorer colorer, int box_size, Line line, int min_x, int max_x, int width, int min_y, int max_y, int height
+		BufferedImage bi = hm.createImage( colorer, box_size, line, min, max-1, res, min, max-1, res );
 		File outputfile = new File( output );
 		ImageIO.write( bi, "png", outputfile );
 
@@ -100,23 +104,6 @@ public class Int2DHeatMapGenerator {
 			System.out.println( "Need -output" );
 			System.exit( 1 );
 		}
-	}
-
-	private static BufferedImage drawImage( HeatMap hm, Colorer colorer ) {
-		BufferedImage img = new BufferedImage( res, res, BufferedImage.TYPE_INT_ARGB );
-		Graphics2D g2 = img.createGraphics();
-		for( int i = 0; i < res; ++i ) {
-			for( int j = 0; j < res; ++j ) {
-				int x = i;
-				int y = res - j;
-				double x_val = min + ( max - min ) * ( (double) x ) / res;
-				double y_val = min + ( max - min ) * ( (double) y ) / res;
-				Color c = colorer.colorForVal( hm.interpolated_val( x_val, y_val ) );
-				g2.setColor( c );
-				g2.fillRect( x, y, 1, 1 );
-			}
-		}
-		return img;
 	}
 
 }
