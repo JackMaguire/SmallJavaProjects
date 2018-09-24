@@ -35,5 +35,11 @@ public class BWColorer implements Colorer {
 		}
 		return c;
 	}
+	
+	@Override
+	public Color colorForVal( double val1, double val2 ) {
+		System.err.println( "BWColorer Can't Be Used With More Than One Set Of Data" );
+		return Color.white;
+	}
 
 }

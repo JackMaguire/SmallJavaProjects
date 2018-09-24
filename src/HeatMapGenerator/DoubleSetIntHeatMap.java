@@ -7,7 +7,8 @@ import java.awt.image.BufferedImage;
 
 public class DoubleSetIntHeatMap {
 
-	private double[][] heat_;
+	private double[][] heat1_; public double[][] heat1(){ return heat1_; }
+	private double[][] heat2_; public double[][] heat2(){ return heat2_; }
 	private final int[] x_vals_;
 	private final int[] y_vals_;
 
@@ -21,17 +22,19 @@ public class DoubleSetIntHeatMap {
 	}
 
 	private final AddType add_type_;
-
+	
 	public DoubleSetIntHeatMap( int min_x, int max_x, int dx, int min_y, int max_y, int dy, AddType add_type ) {
 		add_type_ = add_type;
 		dx_ = dx;
 		dy_ = dy;
 		final int num_x = 1 + (int) ( ( max_x - min_x ) / ( dx ) );
 		final int num_y = 1 + (int) ( ( max_y - min_y ) / ( dy ) );
-		heat_ = new double[ num_x ][ num_y ];
+		heat1_ = new double[ num_x ][ num_y ];
+		heat2_ = new double[ num_x ][ num_y ];
 		for( int i = 0; i < num_x; ++i ) {
 			for( int j = 0; j < num_y; ++j ) {
-				heat_[ i ][ j ] = 0;
+				heat1_[ i ][ j ] = 0;
+				heat2_[ i ][ j ] = 0;
 			}
 		}
 
@@ -46,20 +49,20 @@ public class DoubleSetIntHeatMap {
 		}
 	}
 
-	public void addVal( int x, int y ) {
+	public void addVal( int x, int y, double[][] map ) {
 		for( int i = 0; i < x_vals_.length; ++i ) {
 			for( int j = 0; j < y_vals_.length; ++j ) {
 				if( x_vals_[ i ] == x && y_vals_[ j ] == y ) {
-					++heat_[ i ][ j ];
+					++map[ i ][ j ];
 					if( add_type_ == AddType.NBR4 ) {
 						if( i > 0 )
-							++heat_[ i - 1 ][ j ];
+							++map[ i - 1 ][ j ];
 						if( j > 0 )
-							++heat_[ i ][ j - 1 ];
+							++map[ i ][ j - 1 ];
 						if( i < x_vals_.length - 1 )
-							++heat_[ i + 1 ][ j ];
+							++map[ i + 1 ][ j ];
 						if( j < y_vals_.length - 1 )
-							++heat_[ i ][ j + 1 ];
+							++map[ i ][ j + 1 ];
 					}
 					return;
 				}
@@ -67,18 +70,18 @@ public class DoubleSetIntHeatMap {
 		}
 	}
 
-	public void normalize() {
-		max_heat_ = 0;
+	public void normalize( double[][] map ) {
+		double max_heat = 0;
 		int max_i = 0;
 		int max_j = 0;
-		System.out.println( heat_[ 0 ][ 0 ] );
+		System.out.println( map[ 0 ][ 0 ] );
 		for( int i = 0; i < x_vals_.length; ++i ) {
 			for( int j = 0; j < y_vals_.length; ++j ) {
 				// System.out.println( i + j );
-				if( heat_[ i ][ j ] > max_heat_ ) {
+				if( map[ i ][ j ] > max_heat ) {
 					max_i = i;
 					max_j = j;
-					max_heat_ = heat_[ i ][ j ];
+					max_heat = map[ i ][ j ];
 				}
 			}
 		}
@@ -86,13 +89,12 @@ public class DoubleSetIntHeatMap {
 
 		for( int i = 0; i < x_vals_.length; ++i ) {
 			for( int j = 0; j < y_vals_.length; ++j ) {
-				heat_[ i ][ j ] /= max_heat_;
+				map[ i ][ j ] /= max_heat;
 			}
 		}
-		max_heat_ = 1;
 	}
 
-	public void smoothen() {
+	/*public void smoothen() {
 		final int num_x = x_vals_.length;
 		final int num_y = y_vals_.length;
 		double[][] heat2 = new double[ num_x ][ num_y ];
@@ -100,7 +102,7 @@ public class DoubleSetIntHeatMap {
 		for( int i = 0; i < num_x; ++i ) {
 			for( int j = 0; j < num_y; ++j ) {
 				// val/2 + sum(8 nbrs)/16
-				heat2[ i ][ j ] = heat_[ i ][ j ] / 2;
+				heat2[ i ][ j ] = heat1_[ i ][ j ] / 2;
 
 				for( int di = -1; di < 2; ++di ) {
 					for( int dj = -1; dj < 2; ++dj ) {
@@ -110,14 +112,14 @@ public class DoubleSetIntHeatMap {
 						final int newj = j + dj;
 						if( newi < 0 || newj < 0 || newi == num_x || newj == num_y )
 							continue;
-						heat2[ i ][ j ] += heat_[ newi ][ newj ] / 16.0;
+						heat2[ i ][ j ] += heat1_[ newi ][ newj ] / 16.0;
 					}
 				}
 			}
 		}
 
-		heat_ = heat2;
-	}
+		heat1_ = heat2;
+	}*/
 
 	int val2y( double val, int box_size, int ny ) {
 		double bs = (double) box_size;
@@ -135,8 +137,7 @@ public class DoubleSetIntHeatMap {
 			for( int j = 0; j < ny; ++j ) {
 				int x = i * box_size;
 				int y = ( ny - j ) * box_size;
-				// System.out.println( heat_[ i ][ j ] );
-				Color c = colorer.colorForVal( heat_[ i ][ j ] );
+				Color c = colorer.colorForVal( heat1_[ i ][ j ] );
 				g2.setColor( c );
 				g2.fillRect( x, y, box_size, box_size );
 			}
