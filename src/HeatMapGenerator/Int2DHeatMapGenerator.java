@@ -87,7 +87,12 @@ public class Int2DHeatMapGenerator {
 		}
 
 		if( filename1.length() == 0 ) {
-			System.out.println( "Need -filename" );
+			System.out.println( "Need -filename1" );
+			System.exit( 1 );
+		}
+		
+		if( filename2.length() == 0 ) {
+			System.out.println( "Need -filename2" );
 			System.exit( 1 );
 		}
 

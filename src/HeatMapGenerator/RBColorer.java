@@ -54,11 +54,14 @@ public class RBColorer implements Colorer {
 		}
 		int B = 255;
 		if( val2 < val1 ) {
-			R -= ( a - b );
+			B -= ( a - b );
+		}
+		
+		if( val1 != 0 || val2 != 0) {
+			//System.out.println( val1 + "\t" + val2 + "\t" + R + "\t" + G + "\t" + B );
 		}
 		
 		return new Color( R, G, B );
-
 	}
 
 	@Override
