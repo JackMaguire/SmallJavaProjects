@@ -16,7 +16,7 @@ public class FPHeatMapGenerator {
 
 	private static int min = 0;
 	private static int max = 50;
-	private static int res = 1000;
+	private static int res = 100;
 
 	private static double m_ = 0;
 	private static double b_ = 0;
@@ -28,24 +28,37 @@ public class FPHeatMapGenerator {
 		parse_args( args );
 
 		FPHeatMap hm = new FPHeatMap( filename1, filename2 );
+		hm.finalize();
 		
-		double radius = 3;
+		double radius = 2;
 	
+		double[][] counts_for_set1 = new double[ res ][ res ];
+		double[][] counts_for_set2 = new double[ res ][ res ];
+		
 		double max_count = 0;//not int on purpose	
 		for( int i = 0; i < res; ++i ) {
+			System.out.println( i );
 			double x = min + ( (double) i * (max - min) ) / res;
 			for( int j = 0; j < res; ++j ) {
 				double y = min + ( (double) j * (max - min) ) / res;
-				double i_count = hm.numWithinR_data1( x, y, radius );
-				double j_count = hm.numWithinR_data2( x, y, radius );
-				if( i_count > max_count )
-					max_count = i_count;
-				if( j_count > max_count )
-					max_count = j_count;
+				double count1 = hm.numWithinR_data1( x, y, radius );
+				double count2 = hm.numWithinR_data2( x, y, radius );
+				counts_for_set1[ i ][ j ] = count1;
+				counts_for_set2[ i ][ j ] = count2;
+				if( count1 > max_count )
+					max_count = count1;
+				if( count2 > max_count )
+					max_count = count2;
 			}
 		}
 		
-		System.out.println(max_count);
+		//Normalize
+		for( int i = 0; i < res; ++i ) {
+			for( int j = 0; j < res; ++j ) {
+				counts_for_set1[ i ][ j ] /= max_count;
+				counts_for_set2[ i ][ j ] /= max_count;
+			}
+		}
 		
 		Line line = null;
 		if( m_ != 0 || b_ != 0 ) {
