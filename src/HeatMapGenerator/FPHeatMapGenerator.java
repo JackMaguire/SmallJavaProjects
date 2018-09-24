@@ -38,6 +38,7 @@ public class FPHeatMapGenerator {
 		double max_count = 0;//not int on purpose	
 		for( int i = 0; i < res; ++i ) {
 			System.out.println( i );
+			long start = System.currentTimeMillis();
 			double x = min + ( (double) i * (max - min) ) / res;
 			for( int j = 0; j < res; ++j ) {
 				double y = min + ( (double) j * (max - min) ) / res;
@@ -50,13 +51,15 @@ public class FPHeatMapGenerator {
 				if( count2 > max_count )
 					max_count = count2;
 			}
+			System.out.println( "\t" + (System.currentTimeMillis() - start) );
 		}
 		
-		//Normalize
+		BufferedImage bi = new BufferedImage( res, res, BufferedImage.TYPE_INT_ARGB );
+		Graphics2D g2 = bi.createGraphics();
 		for( int i = 0; i < res; ++i ) {
 			for( int j = 0; j < res; ++j ) {
-				counts_for_set1[ i ][ j ] /= max_count;
-				counts_for_set2[ i ][ j ] /= max_count;
+				g2.setColor( colorer.colorForVal( counts_for_set1[ i ][ j ] / max_count, counts_for_set2[ i ][ j ] / max_count ) );
+				g2.fillRect( i, j, 1, 1 );
 			}
 		}
 		
@@ -68,7 +71,6 @@ public class FPHeatMapGenerator {
 		}
 		
 		//Colorer colorer, int box_size, Line line, int min_x, int max_x, int width, int min_y, int max_y, int height
-		BufferedImage bi = new BufferedImage( res, res, BufferedImage.TYPE_INT_ARGB );// hm.createImage( colorer, box_size, line, min, max-1, res, min, max-1, res );
 		File outputfile = new File( output );
 		ImageIO.write( bi, "png", outputfile );
 
