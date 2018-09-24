@@ -137,14 +137,14 @@ public class DoubleSetIntHeatMap {
 			for( int j = 0; j < ny; ++j ) {
 				int x = i * box_size;
 				int y = ( ny - j ) * box_size;
-				Color c = colorer.colorForVal( heat1_[ i ][ j ] );
+				Color c = colorer.colorForVal( heat1_[ i ][ j ], heat2_[ i ][ j ] );
 				g2.setColor( c );
 				g2.fillRect( x, y, box_size, box_size );
 			}
 		}
 
 		if( line != null ) {
-			g2.setColor( Color.RED );
+			g2.setColor( colorer.colorForLine() );
 			g2.setStroke( new BasicStroke( 3 ) );
 			int x1 = box_size / 2;
 			int x2 = ( nx - 1 ) * box_size + box_size / 2;

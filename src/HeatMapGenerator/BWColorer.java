@@ -41,5 +41,10 @@ public class BWColorer implements Colorer {
 		System.err.println( "BWColorer Can't Be Used With More Than One Set Of Data" );
 		return Color.white;
 	}
+	
+	@Override
+	public Color colorForLine( ) {
+		return Color.red;
+	}
 
 }
