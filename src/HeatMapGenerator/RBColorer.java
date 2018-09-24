@@ -82,7 +82,7 @@ public class RBColorer implements Colorer {
 
 	@Override
 	public Color colorForLine( ) {
-		return Color.white;
+		return Color.yellow;
 	}
 	
 }

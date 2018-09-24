@@ -130,10 +130,14 @@ public class DoubleSetIntHeatMap {
 	}
 
 	BufferedImage createImage( Colorer colorer, int box_size, Line line, int min_x, int max_x, int width, int min_y, int max_y, int height  ) {
+		
 		final int nx = x_vals_.length;
 		final int ny = y_vals_.length;
 		BufferedImage img = new BufferedImage( nx * box_size, ny * box_size, BufferedImage.TYPE_INT_ARGB );
 		Graphics2D g2 = img.createGraphics();
+		g2.setColor( Color.BLACK );
+		g2.fillRect(0,0,1000,1000);
+		
 		for( int i = 0; i < nx; ++i ) {
 			for( int j = 0; j < ny; ++j ) {
 				int x = i * box_size;
@@ -165,6 +169,7 @@ public class DoubleSetIntHeatMap {
 			System.out.println( "x_val2: " + x_val2 + "\t" + x2 );
 			
 			g2.drawLine( x1, y1, x2, y2 );
+			g2.drawLine( 0, 0, 1000, 1000 );
 		}
 		return img;
 	}
