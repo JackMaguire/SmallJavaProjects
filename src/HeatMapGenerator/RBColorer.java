@@ -63,14 +63,14 @@ public class RBColorer implements Colorer {
 		if( b > 255 )
 			b = 255;
 
-		int G = 255 - Math.max( a, b );
+		int B = 255 - Math.max( a, b );
 		int R = 255;
 		if( val1 < val2 ) {
 			R -= ( b - a );
 		}
-		int B = 255;
+		int G = 255;
 		if( val2 < val1 ) {
-			B -= ( a - b );
+			G -= ( a - b );
 		}
 
 		if( val1 != 0 || val2 != 0 ) {
@@ -82,7 +82,7 @@ public class RBColorer implements Colorer {
 
 	@Override
 	public Color colorForLine() {
-		return Color.yellow;
+		return Color.white;
 	}
 
 }

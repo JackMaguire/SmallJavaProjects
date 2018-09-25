@@ -39,7 +39,6 @@ public class FPHeatMapGenerator {
 		FPHeatMap hm = new FPHeatMap( filename1, filename2 );
 		hm.finalize();
 
-
 		FPHeatMapGeneratorThread[] threads = new FPHeatMapGeneratorThread[ num_threads ];
 		for( int i=0; i<num_threads; ++i ) {
 			threads[ i ] = new FPHeatMapGeneratorThread( hm );
