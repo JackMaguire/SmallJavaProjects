@@ -15,45 +15,61 @@ public class FPHeatMapGenerator {
 	public static String filename2 = "";
 	public static String output = "";
 
-	private static int min = 0;
-	private static int max = 50;
-	private static int res = 200;
+	public static int min = 0;
+	public static int max = 50;
+	public static int res = 200;
 	private static int stroke_width = 1;// 3 for 1000x1000
 
+	public static double radius = 1.5;
+	
 	private static double m_ = 0;
 	private static double b_ = 0;
 
 	private static Colorer colorer = new RBColorer();
 
-	public static void main( String[] args ) throws IOException {
+	private final static int num_threads = 24;
+	
+	public static double[][] counts_for_set1 = new double[ res ][ res ];
+	public static double[][] counts_for_set2 = new double[ res ][ res ];
+	
+	public static void main( String[] args ) throws IOException, InterruptedException {
 
 		parse_args( args );
 
 		FPHeatMap hm = new FPHeatMap( filename1, filename2 );
 		hm.finalize();
 
-		double radius = 1.5;
 
-		double[][] counts_for_set1 = new double[ res ][ res ];
-		double[][] counts_for_set2 = new double[ res ][ res ];
-
+		FPHeatMapGeneratorThread[] threads = new FPHeatMapGeneratorThread[ num_threads ];
+		for( int i=0; i<num_threads; ++i ) {
+			threads[ i ] = new FPHeatMapGeneratorThread( hm );
+		}
+		
+		int current_ind = 0;
+		for( int i=0; i < res; ++i ) {
+			//Not doing continuous chunks
+			//Hopefully this improves load-balancing
+			threads[ current_ind++ ].indices_to_compute.add( i );
+			if( current_ind >= num_threads )
+					current_ind = 0;
+		}
+		
+		for( int i=0; i<num_threads; ++i ) {
+			threads[ i ].start();
+		}
+		
+		for( int i=0; i<num_threads; ++i ) {
+			threads[ i ].join();
+		}
+		
 		double max_count = 0;// not int on purpose
 		for( int i = 0; i < res; ++i ) {
-			System.out.println( i );
-			long start = System.currentTimeMillis();
-			double x = min + ( (double) i * ( max - min ) ) / res;
 			for( int j = 0; j < res; ++j ) {
-				double y = min + ( (double) j * ( max - min ) ) / res;
-				double count1 = hm.numWithinR_data1( x, y, radius );
-				double count2 = hm.numWithinR_data2( x, y, radius );
-				counts_for_set1[ i ][ j ] = count1;
-				counts_for_set2[ i ][ j ] = count2;
-				if( count1 > max_count )
-					max_count = count1;
-				if( count2 > max_count )
-					max_count = count2;
+				if( counts_for_set1[ i ][ j ] > max_count )
+					max_count = counts_for_set1[ i ][ j ];
+				if( counts_for_set2[ i ][ j ] > max_count )
+					max_count = counts_for_set2[ i ][ j ];
 			}
-			System.out.println( "\t" + ( System.currentTimeMillis() - start ) );
 		}
 
 		BufferedImage bi = new BufferedImage( res, res, BufferedImage.TYPE_INT_ARGB );
@@ -136,5 +152,5 @@ public class FPHeatMapGenerator {
 			System.exit( 1 );
 		}
 	}
-
+	
 }
