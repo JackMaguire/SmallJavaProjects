@@ -25,9 +25,9 @@ public class RBColorer implements Colorer {
 		}
 		return c;
 	}
-	
+
 	@Override
-	public Color colorForVal( double val1, double val2 ) {//val1
+	public Color colorForVal( double val1, double val2 ) {// val1
 		int a = (int) ( 255 * val1 );
 		if( a < 0 )
 			a = 0;
@@ -39,18 +39,18 @@ public class RBColorer implements Colorer {
 			b = 0;
 		if( b > 255 )
 			b = 255;
-	
+
 		return new Color( a, 0, b );
 	}
-	
-	public Color colorForValNO( double val1, double val2 ) {//val1 is red, val2 is blue
+
+	public Color colorForValNO( double val1, double val2 ) {// val1 is red, val2 is blue
 		/*    val1    val2    R   G   B
 		 *       0       1    0   0  255
 		 *       1       0   255  0   0
 		 *       0       0   255 255 255   
 		 *       1       1   255  0  255
-		 */      
-		
+		 */
+
 		int a = (int) ( 255 * val1 );
 		if( a < 0 )
 			a = 0;
@@ -62,9 +62,9 @@ public class RBColorer implements Colorer {
 			b = 0;
 		if( b > 255 )
 			b = 255;
-		
+
 		int G = 255 - Math.max( a, b );
-		int R = 255; 
+		int R = 255;
 		if( val1 < val2 ) {
 			R -= ( b - a );
 		}
@@ -72,17 +72,17 @@ public class RBColorer implements Colorer {
 		if( val2 < val1 ) {
 			B -= ( a - b );
 		}
-		
-		if( val1 != 0 || val2 != 0) {
-			//System.out.println( val1 + "\t" + val2 + "\t" + R + "\t" + G + "\t" + B );
+
+		if( val1 != 0 || val2 != 0 ) {
+			// System.out.println( val1 + "\t" + val2 + "\t" + R + "\t" + G + "\t" + B );
 		}
-		
+
 		return new Color( R, G, B );
 	}
 
 	@Override
-	public Color colorForLine( ) {
+	public Color colorForLine() {
 		return Color.yellow;
 	}
-	
+
 }

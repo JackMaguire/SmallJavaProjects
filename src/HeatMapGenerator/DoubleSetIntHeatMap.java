@@ -7,8 +7,18 @@ import java.awt.image.BufferedImage;
 
 public class DoubleSetIntHeatMap {
 
-	private double[][] heat1_; public double[][] heat1(){ return heat1_; }
-	private double[][] heat2_; public double[][] heat2(){ return heat2_; }
+	private double[][] heat1_;
+
+	public double[][] heat1() {
+		return heat1_;
+	}
+
+	private double[][] heat2_;
+
+	public double[][] heat2() {
+		return heat2_;
+	}
+
 	private final int[] x_vals_;
 	private final int[] y_vals_;
 
@@ -22,7 +32,7 @@ public class DoubleSetIntHeatMap {
 	}
 
 	private final AddType add_type_;
-	
+
 	public DoubleSetIntHeatMap( int min_x, int max_x, int dx, int min_y, int max_y, int dy, AddType add_type ) {
 		add_type_ = add_type;
 		dx_ = dx;
@@ -98,12 +108,12 @@ public class DoubleSetIntHeatMap {
 		final int num_x = x_vals_.length;
 		final int num_y = y_vals_.length;
 		double[][] heat2 = new double[ num_x ][ num_y ];
-
+	
 		for( int i = 0; i < num_x; ++i ) {
 			for( int j = 0; j < num_y; ++j ) {
 				// val/2 + sum(8 nbrs)/16
 				heat2[ i ][ j ] = heat1_[ i ][ j ] / 2;
-
+	
 				for( int di = -1; di < 2; ++di ) {
 					for( int dj = -1; dj < 2; ++dj ) {
 						if( di == dj )
@@ -117,27 +127,28 @@ public class DoubleSetIntHeatMap {
 				}
 			}
 		}
-
+	
 		heat1_ = heat2;
 	}*/
-	
+
 	int val2y( double val, int min_y, int max_y, int height ) {
-		return (int)( height * (1 - (val - min_y) / (max_y - min_y) ) );
-	}
-	
-	int val2x( double val, int min, int max, int width ) {
-		return (int)( width * (1 - (val - min) / (max - min) ) );
+		return (int) ( height * ( 1 - ( val - min_y ) / ( max_y - min_y ) ) );
 	}
 
-	BufferedImage createImage( Colorer colorer, int box_size, Line line, int min_x, int max_x, int width, int min_y, int max_y, int height  ) {
-		
+	int val2x( double val, int min, int max, int width ) {
+		return (int) ( width * ( 1 - ( val - min ) / ( max - min ) ) );
+	}
+
+	BufferedImage createImage( Colorer colorer, int box_size, Line line, int min_x, int max_x, int width, int min_y,
+			int max_y, int height ) {
+
 		final int nx = x_vals_.length;
 		final int ny = y_vals_.length;
 		BufferedImage img = new BufferedImage( nx * box_size, ny * box_size, BufferedImage.TYPE_INT_ARGB );
 		Graphics2D g2 = img.createGraphics();
 		g2.setColor( Color.BLACK );
-		g2.fillRect(0,0,1000,1000);
-		
+		g2.fillRect( 0, 0, 1000, 1000 );
+
 		for( int i = 0; i < nx; ++i ) {
 			for( int j = 0; j < ny; ++j ) {
 				int x = i * box_size;
@@ -151,10 +162,10 @@ public class DoubleSetIntHeatMap {
 		if( line != null ) {
 			g2.setColor( colorer.colorForLine() );
 			g2.setStroke( new BasicStroke( 3 ) );
-			int x1 = 0;//box_size / 2;
-			int x2 = 999;//( nx - 1 ) * box_size + box_size / 2;
-			//double x_val1 = val2x( x_vals_[0], min_x, max_x, width );
-			//double x_val2 = val2x( x_vals_[ nx - 1 ], min_x, max_x, width );
+			int x1 = 0;// box_size / 2;
+			int x2 = 999;// ( nx - 1 ) * box_size + box_size / 2;
+			// double x_val1 = val2x( x_vals_[0], min_x, max_x, width );
+			// double x_val2 = val2x( x_vals_[ nx - 1 ], min_x, max_x, width );
 			double x_val1 = x_vals_[ 0 ];
 			double x_val2 = x_vals_[ nx - 1 ];
 
@@ -162,12 +173,12 @@ public class DoubleSetIntHeatMap {
 			double y_val2 = line.m * x_val2 + line.b;
 			int y1 = val2y( y_val1, min_y, max_y, height );
 			int y2 = val2y( y_val2, min_y, max_y, height );
-			
+
 			System.out.println( "y_val1: " + y_val1 + "\t" + y1 );
 			System.out.println( "y_val2: " + y_val2 + "\t" + y2 );
 			System.out.println( "x_val1: " + x_val1 + "\t" + x1 );
 			System.out.println( "x_val2: " + x_val2 + "\t" + x2 );
-			
+
 			g2.drawLine( x1, y1, x2, y2 );
 			g2.drawLine( 0, 0, 1000, 1000 );
 		}

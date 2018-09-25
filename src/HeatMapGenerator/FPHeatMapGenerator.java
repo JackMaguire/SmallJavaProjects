@@ -18,8 +18,8 @@ public class FPHeatMapGenerator {
 	private static int min = 0;
 	private static int max = 50;
 	private static int res = 200;
-	private static int stroke_width = 1;//3 for 1000x1000
-	
+	private static int stroke_width = 1;// 3 for 1000x1000
+
 	private static double m_ = 0;
 	private static double b_ = 0;
 
@@ -31,19 +31,19 @@ public class FPHeatMapGenerator {
 
 		FPHeatMap hm = new FPHeatMap( filename1, filename2 );
 		hm.finalize();
-		
+
 		double radius = 1.5;
-	
+
 		double[][] counts_for_set1 = new double[ res ][ res ];
 		double[][] counts_for_set2 = new double[ res ][ res ];
-		
-		double max_count = 0;//not int on purpose	
+
+		double max_count = 0;// not int on purpose
 		for( int i = 0; i < res; ++i ) {
 			System.out.println( i );
 			long start = System.currentTimeMillis();
-			double x = min + ( (double) i * (max - min) ) / res;
+			double x = min + ( (double) i * ( max - min ) ) / res;
 			for( int j = 0; j < res; ++j ) {
-				double y = min + ( (double) j * (max - min) ) / res;
+				double y = min + ( (double) j * ( max - min ) ) / res;
 				double count1 = hm.numWithinR_data1( x, y, radius );
 				double count2 = hm.numWithinR_data2( x, y, radius );
 				counts_for_set1[ i ][ j ] = count1;
@@ -53,18 +53,19 @@ public class FPHeatMapGenerator {
 				if( count2 > max_count )
 					max_count = count2;
 			}
-			System.out.println( "\t" + (System.currentTimeMillis() - start) );
+			System.out.println( "\t" + ( System.currentTimeMillis() - start ) );
 		}
-		
+
 		BufferedImage bi = new BufferedImage( res, res, BufferedImage.TYPE_INT_ARGB );
 		Graphics2D g2 = bi.createGraphics();
 		for( int i = 0; i < res; ++i ) {
 			for( int j = 0; j < res; ++j ) {
-				g2.setColor( colorer.colorForVal( counts_for_set1[ i ][ j ] / max_count, counts_for_set2[ i ][ j ] / max_count ) );
+				g2.setColor(
+						colorer.colorForVal( counts_for_set1[ i ][ j ] / max_count, counts_for_set2[ i ][ j ] / max_count ) );
 				g2.fillRect( i, j, 1, 1 );
 			}
 		}
-		
+
 		Line line = null;
 		if( m_ != 0 || b_ != 0 ) {
 			line = new Line();
@@ -75,17 +76,18 @@ public class FPHeatMapGenerator {
 		double x1 = (double) max;
 		double y0 = b_;
 		double y1 = m_ * x1 + b_;
-		
+
 		int i0 = 0;
 		int i1 = res + 1;
-		int j0 = (int) (min + ((double)res)*(y0-min)/(max - min));
-		int j1 = (int) (min + ((double)res)*(y1-min)/(max - min));
+		int j0 = (int) ( min + ( (double) res ) * ( y0 - min ) / ( max - min ) );
+		int j1 = (int) ( min + ( (double) res ) * ( y1 - min ) / ( max - min ) );
 
 		g2.setColor( colorer.colorForLine() );
-		g2.setStroke( new BasicStroke( stroke_width ) );//3 for 1000x1000
+		g2.setStroke( new BasicStroke( stroke_width ) );// 3 for 1000x1000
 		g2.drawLine( i0, j0, i1, j1 );
-		
-		//Colorer colorer, int box_size, Line line, int min_x, int max_x, int width, int min_y, int max_y, int height
+
+		// Colorer colorer, int box_size, Line line, int min_x, int max_x, int width,
+		// int min_y, int max_y, int height
 		File outputfile = new File( output );
 		ImageIO.write( bi, "png", outputfile );
 
@@ -123,7 +125,7 @@ public class FPHeatMapGenerator {
 			System.out.println( "Need -filename1" );
 			System.exit( 1 );
 		}
-		
+
 		if( filename2.length() == 0 ) {
 			System.out.println( "Need -filename2" );
 			System.exit( 1 );
