@@ -17,8 +17,8 @@ public class FPHeatMapGenerator {
 
 	public static int min = 0;
 	public static int max = 50;
-	public static int res = 200;
-	private static int stroke_width = 1;// 3 for 1000x1000
+	public static int res = 500;
+	private static int stroke_width = 2;// 3 for 1000x1000
 
 	public static double radius = 1.5;
 	
