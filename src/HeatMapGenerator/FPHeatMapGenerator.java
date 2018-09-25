@@ -17,8 +17,8 @@ public class FPHeatMapGenerator {
 
 	private static int min = 0;
 	private static int max = 50;
-	private static int res = 200;
-	private static int stroke_width = 1;// 3 for 1000x1000
+	private static int res = 1000;
+	private static int stroke_width = 3;// 3 for 1000x1000
 
 	private static double m_ = 0;
 	private static double b_ = 0;
@@ -32,7 +32,7 @@ public class FPHeatMapGenerator {
 		FPHeatMap hm = new FPHeatMap( filename1, filename2 );
 		hm.finalize();
 
-		double radius = 1.5;
+		double radius = 1;
 
 		double[][] counts_for_set1 = new double[ res ][ res ];
 		double[][] counts_for_set2 = new double[ res ][ res ];
