@@ -27,7 +27,7 @@ public class FPHeatMapGenerator {
 
 	private static Colorer colorer = new RBColorer();
 
-	private final static int num_threads = 24;
+	private final static int num_threads = 1;
 	
 	public static double[][] counts_for_set1 = new double[ res ][ res ];
 	public static double[][] counts_for_set2 = new double[ res ][ res ];
@@ -37,7 +37,7 @@ public class FPHeatMapGenerator {
 		parse_args( args );
 
 		FPHeatMap hm = new FPHeatMap( filename1, filename2 );
-		hm.finalize();
+		//hm.finalize();
 
 		FPHeatMapGeneratorThread[] threads = new FPHeatMapGeneratorThread[ num_threads ];
 		for( int i=0; i<num_threads; ++i ) {
