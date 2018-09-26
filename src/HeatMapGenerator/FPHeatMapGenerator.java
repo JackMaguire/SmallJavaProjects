@@ -28,7 +28,7 @@ public class FPHeatMapGenerator {
 
 	private static Colorer colorer = new RBColorer();
 
-	private final static int num_threads = 1;
+	private final static int num_threads = 24;
 	
 	public static double[][] counts_for_set1 = new double[ res ][ res ];
 	public static double[][] counts_for_set2 = new double[ res ][ res ];
