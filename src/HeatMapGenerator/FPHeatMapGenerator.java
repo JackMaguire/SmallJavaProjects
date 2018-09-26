@@ -17,17 +17,18 @@ public class FPHeatMapGenerator {
 
 	public static int min = 0;
 	public static int max = 50;
-	public static int res = 500;
-	private static int stroke_width = 2;// 3 for 1000x1000
 
-	public static double radius = 1.5;
+	public static int res = 1000;
+	private static int stroke_width = 3;// 3 for 1000x1000
+
+	public static double radius = 0.5;
 	
 	private static double m_ = 0;
 	private static double b_ = 0;
 
 	private static Colorer colorer = new RBColorer();
 
-	private final static int num_threads = 24;
+	private final static int num_threads = 1;
 	
 	public static double[][] counts_for_set1 = new double[ res ][ res ];
 	public static double[][] counts_for_set2 = new double[ res ][ res ];
@@ -37,7 +38,7 @@ public class FPHeatMapGenerator {
 		parse_args( args );
 
 		FPHeatMap hm = new FPHeatMap( filename1, filename2 );
-		hm.finalize();
+		//hm.finalize();
 
 		FPHeatMapGeneratorThread[] threads = new FPHeatMapGeneratorThread[ num_threads ];
 		for( int i=0; i<num_threads; ++i ) {
