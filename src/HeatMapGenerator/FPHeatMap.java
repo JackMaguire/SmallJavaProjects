@@ -57,71 +57,87 @@ public class FPHeatMap {
 	}
 
 	public int numWithinR_data1( double x, double y, double R ) {
-		if( y > max_y_ + R ) return 0;
-		if( true )
-			return numWithinR_slow( x, y, R, data1_ );
-		XY lower_xy = new XY( x - R, y );
-		int lower_bound = Collections.binarySearch( data1_, lower_xy, comp_ );
-		if( lower_bound < 0 )
+		if( y > max_y_ + R ) return 0;	
+		XY bounding_xy = new XY( x - R - 0.1, y );
+		int lower_bound = Collections.binarySearch( data1_, bounding_xy, comp_ );
+		if( lower_bound < 0 ) {
 			lower_bound = 0;
-		XY upper_xy = new XY( x + R + 0.1, y );
-		int upper_bound = Collections.binarySearch( data1_, upper_xy, comp_ );
-
-		// System.out.println( lower_bound + "\t" + upper_bound + "\t" + data1_.size()
-		// );
+		}
+		
+		/*bounding_xy = new XY( x + R + 0.1, y );
+		int upper_bound = Collections.binarySearch( data1_, bounding_xy, comp_ );
+		if( upper_bound < 0 ) {
+			upper_bound = Math.abs( upper_bound );
+		}*/
 
 		int count = 0;
 		double R2 = R * R;
 		XY temp = new XY( x, y );
 
-		for( int i = lower_bound; i <= upper_bound && i < data1_.size(); ++i ) {
+		for( int i = lower_bound; i < data1_.size(); ++i ) {
 			XY xy = data1_.get( i );
-			if( temp.distance_squared( xy ) <= R2 )
+			if( temp.distance_squared( xy ) <= R2 ) {
 				++count;
-		}
-		if( Math.random() < 0.005 ) {// Test slow way
-			int real_count = numWithinR_slow( x, y, R, data1_ );
-			if( real_count != count ) {
-				System.err.println( "real_count != count!" );
-				System.err.println( real_count + " != " + count );
 			}
+			/*else if( xy.X - x > R ) {
+				break;
+			}*/
 		}
 
+		/*if( Math.random() < 0.005 ) {// Test slow way
+			int real_count = numWithinR_slow( x, y, R, data1_ );
+			if( real_count != count ) {
+				System.err.println( "real_count != count (1)" );
+				System.err.println( real_count + " != " + count );
+				System.err.println( x + "\t" + y );
+				System.exit( 1 );
+			}
+		}*/
 		return count;
 	}
 
 	public int numWithinR_data2( double x, double y, double R ) {
 		if( y > max_y_ + R ) return 0;	
-		//if( true )
-			//return numWithinR_slow( x, y, R, data2_ );
-		XY lower_xy = new XY( x - R - 0.1, y );
-		int lower_bound = Collections.binarySearch( data2_, lower_xy, comp_ );
+
+		XY bounding_xy = new XY( x - R - 0.1, y );
+		int lower_bound = Collections.binarySearch( data2_, bounding_xy, comp_ );
 		if( lower_bound < 0 ) {
 			lower_bound = 0;
 		}
 
+		/*bounding_xy = new XY( x + R + 0.1, y );
+		int upper_bound = Collections.binarySearch( data1_, bounding_xy, comp_ );
+		if( upper_bound < 0 ) {
+			upper_bound = Math.abs( upper_bound ) + 2;
+		}
+		if( upper_bound > data2_.size() ) {
+			upper_bound = data2_.size();
+		}*/
+		
 		int count = 0;
 		double R2 = R * R;
 		XY temp = new XY( x, y );
 
 		for( int i = lower_bound; i < data2_.size(); ++i ) {
 			XY xy = data2_.get( i );
-			if( temp.distance_squared( xy ) <= R2 )
+			if( temp.distance_squared( xy ) <= R2 ) {
 				++count;
-			else if( xy.X - x > R ) {
-				break;
 			}
+			/*else if( xy.X - x > R ) {
+				break;
+			}*/
 		}
 
-	//	if( Math.random() < 0.005 ) {// Test slow way
+		if( Math.random() < 0.005 ) {// Test slow way
 			int real_count = numWithinR_slow( x, y, R, data2_ );
 			if( real_count != count ) {
-				System.err.println( "real_count != count" );
+				System.err.println( "real_count != count (2)" );
 				System.err.println( real_count + " != " + count );
+				//System.err.println( data2_.get( lower_bound ).X + "\t" + data2_.get( upper_bound - 1 ).X );
 				System.err.println( x + "\t" + y );
 				System.exit( 1 );
 			}
-		//}
+		}
 		return count;
 	}
 
