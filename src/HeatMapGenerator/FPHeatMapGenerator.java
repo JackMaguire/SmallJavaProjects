@@ -61,13 +61,14 @@ public class FPHeatMapGenerator {
 			threads[ i ].join();
 		}
 		
-		double max_count = 0;// not int on purpose
+		double max_count1 = 0;// not int on purpose
+		double max_count2 = 0;// not int on purpose
 		for( int i = 0; i < res; ++i ) {
 			for( int j = 0; j < res; ++j ) {
-				if( counts_for_set1[ i ][ j ] > max_count )
-					max_count = counts_for_set1[ i ][ j ];
-				if( counts_for_set2[ i ][ j ] > max_count )
-					max_count = counts_for_set2[ i ][ j ];
+				if( counts_for_set1[ i ][ j ] > max_count1 )
+					max_count1 = counts_for_set1[ i ][ j ];
+				if( counts_for_set2[ i ][ j ] > max_count2 )
+					max_count2 = counts_for_set2[ i ][ j ];
 			}
 		}
 
@@ -76,7 +77,7 @@ public class FPHeatMapGenerator {
 		for( int i = 0; i < res; ++i ) {
 			for( int j = 0; j < res; ++j ) {
 				g2.setColor(
-						colorer.colorForVal( counts_for_set1[ i ][ j ] / max_count, counts_for_set2[ i ][ j ] / max_count ) );
+						colorer.colorForVal( counts_for_set1[ i ][ j ] / max_count1, counts_for_set2[ i ][ j ] / max_count2 ) );
 				g2.fillRect( i, j, 1, 1 );
 			}
 		}
