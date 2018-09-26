@@ -81,8 +81,8 @@ public class FPHeatMap {
 	}
 
 	public int numWithinR_data2( double x, double y, double R ) {
-		if( true )
-			return numWithinR_slow( x, y, R, data2_ );
+		//if( true )
+			//return numWithinR_slow( x, y, R, data2_ );
 		XY lower_xy = new XY( x - R, y );
 		int lower_bound = Collections.binarySearch( data2_, lower_xy, comp_ );
 		if( lower_bound < 0 )
